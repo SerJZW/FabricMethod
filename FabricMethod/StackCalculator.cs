@@ -10,35 +10,38 @@ namespace FabricMethod
 {
     public class StackCalculator
     {
-        private Stack<double> stack;
+        private double operand;
+        private Stack<double> operandStack;
         private Dictionary<char, ICommand> operators;
 
         public StackCalculator()
         {
-            stack = new Stack<double>();
+            operand = 0;
+            operandStack = new Stack<double>();
             operators = new Dictionary<char, ICommand>
-        {
-            { '+', new AddCommand() },
-            { '-', new SubtractCommand() },
-            { '*', new MultiplyCommand() },
-            { '/', new DivideCommand() }
-        };
+            {
+                { '+', new AddCommand() },
+                { '-', new SubtractCommand() },
+                { '*', new MultiplyCommand() },
+                { '/', new DivideCommand() }
+            };
         }
 
         public double Calculate(string expression)
         {
-            foreach (char token in expression)
+            string[] tokens = expression.Split(' ');
+
+            foreach (string token in tokens)
             {
-                if (char.IsDigit(token) || token == '.')
+                if (double.TryParse(token, out double number))
                 {
-                    double operand = double.Parse(token.ToString());
-                    stack.Push(operand);
+                    operandStack.Push(number);
                 }
-                else if (operators.ContainsKey(token))
+                else if (operators.ContainsKey(token[0]))
                 {
                     try
                     {
-                        operators[token].Execute(stack);
+                        PerformOperation(token[0]);
                     }
                     catch (CalculatorException ex)
                     {
@@ -48,10 +51,21 @@ namespace FabricMethod
                 }
             }
 
-            if (stack.Count == 1)
-                return stack.Pop();
+            if (operandStack.Count == 1)
+                return operandStack.Pop();
             else
                 throw new CalculatorException("Invalid expression");
+        }
+        private void PerformOperation(char op)
+        {
+            if (operandStack.Count < 2)
+                throw new CalculatorException("Not enough operands for operation");
+
+            double b = operandStack.Pop();
+            double a = operandStack.Pop();
+
+            operand = operators[op].Execute(a, b);
+            operandStack.Push(operand);
         }
     }
 }

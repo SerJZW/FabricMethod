@@ -9,11 +9,11 @@ namespace FabricMethod.Command
             double result;
             try
             {
-                result = a / b;
-                if (a == 0 || b == 0)
+                if (b == 0)
                 {
-                    throw new CalculatorException("Some operand is null");
+                    throw new CalculatorException("Division by zero is not allowed");
                 }
+                result = a / b;
             }
             catch (CalculatorException e)
             {

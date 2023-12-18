@@ -10,7 +10,7 @@ namespace FabricMethod
 
             try
             {
-                double result = calculator.Calculate("5 3 4 * + 7 -");
+                double result = calculator.Calculate("5 3 4 * + 7 +");
                 Console.WriteLine($"Result: {result}");
             }
             catch (CalculatorException ex)
@@ -19,4 +19,5 @@ namespace FabricMethod
             }
         }
     }
+
 }
