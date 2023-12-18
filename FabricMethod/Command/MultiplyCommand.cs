@@ -9,13 +9,19 @@ namespace FabricMethod.Command
 {
     public class MultiplyCommand : ICommand
     {
-        public void Execute(Stack<double> stack)
+        public double Execute(double a, double b)
         {
-            if (stack.Count < 2)
-                throw new CalculatorException("Not enough operands for multiplication");
-            double b = stack.Pop();
-            double a = stack.Pop();
-            stack.Push(a * b);
+            double result;
+            try
+            {
+                result = a * b;
+            }
+            catch(CalculatorException e)
+            {
+                Console.WriteLine(e.Message);
+                result = default;
+            }
+            return result;
         }
     }
 }

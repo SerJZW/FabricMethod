@@ -8,6 +8,6 @@ namespace FabricMethod.Command
 {
     public interface ICommand
     {
-        void Execute(Stack<double> stack);
+        double Execute(double a, double b);
     }
 }

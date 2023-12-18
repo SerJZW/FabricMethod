@@ -9,13 +9,19 @@ namespace FabricMethod.Command
 {
     public class SubtractCommand : ICommand
     {
-        public void Execute(Stack<double> stack)
+      public double Execute(double a, double b)
         {
-            if (stack.Count < 2)
-                throw new CalculatorException("Not enough operands for subtraction");
-            double b = stack.Pop();
-            double a = stack.Pop();
-            stack.Push(a - b);
+            double result;
+            try
+            {
+                result = a - b;
+            }
+            catch (CalculatorException ex)
+            {
+                Console.WriteLine(ex.Message);
+                result = default;
+            }
+            return result;
         }
     }
 

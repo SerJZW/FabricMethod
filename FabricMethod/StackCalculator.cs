@@ -46,7 +46,6 @@ namespace FabricMethod
                         break;
                     }
                 }
-                // Ignore other characters
             }
 
             if (stack.Count == 1)
